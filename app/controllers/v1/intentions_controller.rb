@@ -1,4 +1,4 @@
-class Api::V1::IntentionsController < ApplicationController
+class V1::IntentionsController < ApplicationController
    before_action :authenticate_with_token!, only: [:create, :update,:destroy]
   
   def index

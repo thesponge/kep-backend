@@ -1,4 +1,4 @@
-class Api::V1::ResourcesController < ApplicationController
+class V1::ResourcesController < ApplicationController
   before_action :authenticate_with_token!, only: [ :create, :update, :destroy]
   before_filter :add_cors_to_json
 

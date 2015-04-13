@@ -1,4 +1,4 @@
-class Api::V1::MatchesController < ApplicationController
+class V1::MatchesController < ApplicationController
   before_action :authenticate_with_token!, only: [ :create, :destroy ]
   rescue_from ActiveRecord::RecordNotUnique, with: :not_uniq
 

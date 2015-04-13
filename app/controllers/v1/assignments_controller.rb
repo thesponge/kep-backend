@@ -1,4 +1,4 @@
-class Api::V1::AssignmentsController < ApplicationController
+class V1::AssignmentsController < ApplicationController
   before_action :authenticate_with_token!, only: [ :create, :update, :destroy]
   
   def index

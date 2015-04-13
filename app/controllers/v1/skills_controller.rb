@@ -1,4 +1,4 @@
-class Api::V1::SkillsController < ApplicationController
+class V1::SkillsController < ApplicationController
    before_action :authenticate_with_token!, only: [:create, :update]
   
   def index

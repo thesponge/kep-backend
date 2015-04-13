@@ -1,4 +1,4 @@
-class Api::V1::AccountsController < ApplicationController
+class V1::AccountsController < ApplicationController
   before_action :authenticate_with_token!, only: [ :update]
 
   def show

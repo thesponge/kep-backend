@@ -1,4 +1,4 @@
-class Api::V1::UsersController < ApplicationController
+class V1::UsersController < ApplicationController
   before_action :authenticate_with_token!, only: [:update, :destroy]
 
   def index

@@ -1,4 +1,4 @@
-class Api::V1::AssignmentRewardsController < ApplicationController
+class V1::AssignmentRewardsController < ApplicationController
   
   def index
     render json: AssignmentReward.all
