@@ -1,56 +1,88 @@
-# config valid only for current version of Capistrano
-lock '3.4.0'
+require 'mina/bundler'
+require 'mina/rails'
+require 'mina/git'
+require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
+# require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
-set :application, 'KEP'
-set :repo_url, 'https://github.com/thesponge/kep'
-set :repo_tree, 'backend'
+# Basic settings:
+#   domain       - The hostname to SSH to.
+#   deploy_to    - Path to deploy into.
+#   repository   - Git repo to clone from. (needed by mina/git)
+#   branch       - Branch name to deploy. (needed by mina/git)
 
-set :rbenv_ruby, File.read('.ruby-version').strip
+set :domain, 'wasp.thesponge.eu'
+if ENV['on']=='staging'
+  set :deploy_to, '/srv/kep/staging/backend'
+else
+  set :deploy_to, '/srv/kep/production/backend'
+end
+set :repository, 'https://github.com/thesponge/kep-backend.git'
+set :branch, 'master'
+set :term_mode, nil
 
-#call with cap -s env="<env>" branch="<branchname>" deploy
+# For system-wide RVM install.
+#   set :rvm_path, '/usr/local/rvm/bin/rvm'
 
-set :branch, fetch(:branch, "master")
-#set :env, fetch(:env, "production")
+# Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
+# They will be linked in the 'deploy:link_shared_paths' step.
+set :shared_paths, ['config/application.yml', 'log']
 
-# Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+# Optional settings:
+  set :user, 'www-data'    # Username in the server to SSH to.
+#   set :port, '30000'     # SSH port number.
+  set :forward_agent, true     # SSH forward_agent.
 
-# Default deploy_to directory is /var/www/my_app_name
-# set :deploy_to, '/var/www/my_app_name'
+# This task is the environment that is loaded for most commands, such as
+# `mina deploy` or `mina rake`.
+task :environment do
+  # If you're using rbenv, use this to load the rbenv environment.
+  # Be sure to commit your .ruby-version or .rbenv-version to your repository.
+  invoke :'rbenv:load'
 
-# Default value for :scm is :git
-# set :scm, :git
+  # For those using RVM, use this to load an RVM version@gemset.
+  # invoke :'rvm:use[ruby-1.9.3-p125@default]'
+end
 
-# Default value for :format is :pretty
-# set :format, :pretty
+# Put any custom mkdir's in here for when `mina setup` is ran.
+# For Rails apps, we'll make some of the shared paths that are shared between
+# all releases.
+task :setup => :environment do
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log"]
 
-# Default value for :log_level is :debug
-# set :log_level, :debug
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
+  
+  queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
+  queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml'."]
+end
 
-# Default value for :pty is false
-# set :pty, true
+desc "Deploys the current version to the server."
+task :deploy => :environment do
+  to :before_hook do
+  end
+  deploy do
+    # Put things that will set up an empty directory into a fully set-up
+    # instance of your project.
+    invoke :'git:clone'
+    invoke :'deploy:link_shared_paths'
+    invoke :'bundle:install'
+    system "rsync ./config/application.yml #{user}@#{domain}:#{deploy_to}/#{shared_path}/config/"
+    invoke :'rails:db_migrate'
+#    invoke :'rails:assets_precompile'
+    invoke :'deploy:cleanup'
 
-# Default value for :linked_files is []
-#set :linked_files, fetch(:linked_files, []).push('config/application.yml', 'config/secrets.yml')
-
-# Default value for linked_dirs is []
-# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
-
-# Default value for keep_releases is 5
-# set :keep_releases, 5
-
-namespace :deploy do
-
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
+    to :launch do
+      queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
+      queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
     end
   end
-
 end
+
+# For help in making your deploy script, see the Mina documentation:
+#
+#  - http://nadarei.co/mina
+#  - http://nadarei.co/mina/tasks
+#  - http://nadarei.co/mina/settings
+#  - http://nadarei.co/mina/helpers
+
