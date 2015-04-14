@@ -1,0 +1,15 @@
+# Add configuration values here, as shown below.
+#
+
+SMTP_USERNAME: user@example.com
+SMTP_PASSWORD: smtppassword
+
+staging:
+  SECRET_KEY_BASE: key_base
+  DB_USER: dbuser
+  DB_PASS: 'dbpass'
+
+production:
+  SECRET_KEY_BASE: key_base
+  DB_USER: dbuser
+  DB_PASS: 'dbpass'
