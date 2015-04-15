@@ -22,9 +22,7 @@ module MyBackend
   
   config.autoload_paths += %W(#{config.root}/lib)
     
-  config.middleware.insert 0, Rack::Cors
-
-  config.middleware.use Rack::Cors do
+  config.middleware.insert 0, Rack::Cors do
     allow do
       origins "*"
       resource "*", headers: :any, methods: [:get, :post, :put, :patch, :delete, :options]
