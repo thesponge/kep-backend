@@ -5,5 +5,6 @@ class AssignmentSerializer < ActiveModel::Serializer
   has_many :locations
   has_many :languages
   has_many :skills
+  has_many :assignment_rewards
   has_many :assignment_priorities
 end
