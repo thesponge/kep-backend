@@ -12,7 +12,7 @@ gem 'figaro'
 gem 'seed-fu', '~> 2.3'
 gem 'geocoder'
 #For the list of languages in language model
-gem 'language_list' 
+gem 'language_list'
 #For cors operations
 gem 'rack-cors'
 gem 'mina'

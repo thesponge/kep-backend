@@ -2,7 +2,7 @@ class V1::ResourcesController < ApplicationController
   before_action :authenticate_with_token!, only: [ :create, :update, :destroy]
   before_filter :add_cors_to_json
 
-   
+
   def index
     render json: Resource.all
   end
@@ -10,7 +10,7 @@ class V1::ResourcesController < ApplicationController
   def show
     render json: Resource.find(params[:id])
   end
-  
+
   def create
     resource = current_user.resources.build(resource_params)
     if resource.save
@@ -18,18 +18,18 @@ class V1::ResourcesController < ApplicationController
     else
       render json: { errors: resource.errors }, status: 422
     end
-  end  
-  
+  end
+
   def update
     resource = current_user.resources.find(params[:id])
     if resource.update(resource_params)
       render json: resource, status: 200
-    else 
+    else
       render json: { errors: resource.errors }, status: 422
     end
   end
-  
-  def destroy 
+
+  def destroy
     resource = current_user.resources.find(params[:id])
     if resource.destroy
       head 204
@@ -37,11 +37,12 @@ class V1::ResourcesController < ApplicationController
       render json: {errors: resource.errors.full_messages}, status: 422
     end
   end
-    
-  private 
-  
+
+  private
+
   def resource_params
-    params.require(:resource).permit(:title, :description, :travel, :driver_license,resource_intention_ids: [], resource_priority_ids: [])
+    params.require(:resource).permit(:title, :description, :travel, :driver_license,
+    resource_intention_ids: [], resource_priority_ids: [])
   end
 
   protected def add_cors_to_json
@@ -51,6 +52,6 @@ class V1::ResourcesController < ApplicationController
     end
   end
 
-  
-  
+
+
 end

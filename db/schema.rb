@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407232052) do
+ActiveRecord::Schema.define(version: 20150429140021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,17 @@ ActiveRecord::Schema.define(version: 20150407232052) do
   end
 
   add_index "assignments", ["user_id"], name: "index_assignments_on_user_id", using: :btree
+
+  create_table "automatic_matches", force: :cascade do |t|
+    t.integer  "id_1"
+    t.string   "table_name_1"
+    t.integer  "id_2"
+    t.string   "table_name_2"
+    t.decimal  "total_score",      precision: 5, scale: 2
+    t.json     "score_categories"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
 
   create_table "intention_maps", force: :cascade do |t|
     t.integer  "intention_map_id"

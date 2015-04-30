@@ -19,6 +19,7 @@ MyBackend::Application.routes.draw do
       resources :languages
       resources :locations
       resources :skills
+      resources :automatic_matches
 
     end
   end
