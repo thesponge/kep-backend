@@ -16,6 +16,7 @@ gem 'language_list'
 #For cors operations
 gem 'rack-cors'
 gem 'mina'
+gem 'wisper'
 
 group :development do
   gem 'byebug'

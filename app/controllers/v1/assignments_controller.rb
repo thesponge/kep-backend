@@ -1,4 +1,6 @@
 class V1::AssignmentsController < ApplicationController
+  include Wisper::Publisher
+
   before_action :authenticate_with_token!, only: [ :create, :update, :destroy]
 
   def index
@@ -13,8 +15,11 @@ class V1::AssignmentsController < ApplicationController
   def create
     assignment = current_user.assignments.build(assignment_params)
     if assignment.save
+      #Publish event to any interested listeners
+      publish(:assignment_create,assignment)
       render json: assignment, status: 201
     else
+      # publish(:assignment_errors,assignment)
       render json: { errors: assignment.errors }, status: 422
     end
   end
@@ -41,7 +46,7 @@ class V1::AssignmentsController < ApplicationController
 
   def assignment_params
     params.require(:assignment).permit(:title, :description, :travel, :driver_license,
-    assignment_reward_ids: [], assignment_priority_ids: [])
+    assignment_reward_ids: [], assignment_priority_ids: [], skill_ids: [])
   end
 
 

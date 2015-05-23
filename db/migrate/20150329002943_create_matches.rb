@@ -8,11 +8,11 @@ class CreateMatches < ActiveRecord::Migration
       t.integer :assignment_owner, null: false
       t.boolean :accepted_assignment
       t.boolean :accepted_resource
-      t.boolean :completed 
-      
+      t.boolean :completed
+
       t.timestamps null: false
     end
-    
+
     add_index "matches", ["j_id", "r_id"], unique:true
   end
 end

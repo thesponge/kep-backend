@@ -10,7 +10,6 @@ MyBackend::Application.routes.draw do
       resources :accounts
 
       resources :assignments, :only => [:show, :index,:create, :update, :destroy]
-      resources :assignment_types
       resources :assignment_rewards
       resources :resources, :only => [:show, :index,:create, :update, :destroy]
       resources :matches
@@ -19,7 +18,10 @@ MyBackend::Application.routes.draw do
       resources :languages
       resources :locations
       resources :skills
-      resources :automatic_matches
+      resource :score_account_assignments do
+        get "account_matches"
+        get "assignment_matches"
+      end
 
     end
   end

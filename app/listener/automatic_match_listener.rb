@@ -1,4 +1,33 @@
-module Matchable
+class AutomaticMatchListener
+
+#! Implement assignment_errors
+
+  def assignment_create(assignment)
+    if assignment.skills.size != 0
+      match_assignment(assignment)
+    end
+  end
+
+  # def assignment_errors(assignment)
+  #
+  # end
+
+
+  #Calculates score between compatible accounts and an account and puts them in
+  # the db
+  def match_assignment(assign)
+    Account.includes(:skills).where.not(skills: { id: nil }).each do |acc|
+      if acc.id != assign.user_id
+        total_score = total_score_assign(acc,assign)
+        if total_score > 10.00
+          automatch = ScoreAccountAssignment.new(assignment_id: assign.id, account_id: acc.id)
+          automatch.total_score = total_score
+          automatch.score_categories = score_categories_assign(acc,assign).to_json
+          automatch.save
+        end
+      end
+    end
+  end
 
 
   # Calculates the compatibility_score/category between an assignment and an account
@@ -10,7 +39,7 @@ module Matchable
     score_skills = {}
 
     if common_skills == []
-      total_score = 0
+      total_score = 0.00
     else
       count_assign = count_categories(assign_skills)
       count_common = count_categories(common_skills)
@@ -37,7 +66,11 @@ module Matchable
   #Calculates the score/category based on formula: nr_of_common_skills/nr_of_skills_in_obj
   #Return a hash containing: {"category" : "coresponding_score"}
   def score_category(object_hash,common_hash)
-    scores = {}
+    scores  = {}
+    object_hash.each do |k,v|
+      scores["#{k}"] = 0.00
+    end
+
     common_hash.each do |k,v|
       scores["#{k}"] = ((v * 100.0) / object_hash["#{k}"]).round(2)
     end
