@@ -15,11 +15,10 @@ class V1::AssignmentsController < ApplicationController
   def create
     assignment = current_user.assignments.build(assignment_params)
     if assignment.save
-      #Publish event to any interested listeners
-      publish(:assignment_create,assignment)
+      service =  AutomaticMatches.new()
+      service.generate(assignment,assignment_params)
       render json: assignment, status: 201
     else
-      # publish(:assignment_errors,assignment)
       render json: { errors: assignment.errors }, status: 422
     end
   end
@@ -27,6 +26,8 @@ class V1::AssignmentsController < ApplicationController
   def update
     assignment = current_user.assignments.find(params[:id])
     if assignment.update(assignment_params)
+      service = AutomaticMatches.new()
+      service.update(assignment, assignment_params)
       render json: assignment, status: 200
     else
       render json: { errors: assignment.errors }, status: 422
@@ -46,7 +47,8 @@ class V1::AssignmentsController < ApplicationController
 
   def assignment_params
     params.require(:assignment).permit(:title, :description, :travel, :driver_license,
-    assignment_reward_ids: [], assignment_priority_ids: [], skill_ids: [])
+     assignment_reward_ids: [], assignment_priority_ids: [], skill_ids: [], location_ids: [],
+     language_ids: [])
   end
 
 

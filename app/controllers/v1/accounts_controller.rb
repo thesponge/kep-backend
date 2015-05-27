@@ -8,6 +8,8 @@ class V1::AccountsController < ApplicationController
   def update
     account = current_user.account
     if account.update(account_params)
+      service = AutomaticMatches.new()
+      service.update(account,account_params)
       render json: account, status: 200
     else
       render json: { errors: account.errors }, status: 422
