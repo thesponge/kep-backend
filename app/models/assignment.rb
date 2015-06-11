@@ -20,7 +20,9 @@ class Assignment < ActiveRecord::Base
   has_many :skills, :through => :skill_maps,
                     :after_remove => proc { |a| a.touch },
                     :after_add => proc { |a| a.touch unless a.new_record?  }
-  has_many :score_account_assignments
+
+  has_many :score_account_assignments, inverse_of: :assignment
+  has_many :assignment_bids, inverse_of: :assignment
 
   accepts_nested_attributes_for :assignment_priorities
 

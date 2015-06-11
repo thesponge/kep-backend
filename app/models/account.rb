@@ -14,7 +14,7 @@ class Account < ActiveRecord::Base
   has_many :skill_maps, :as => :skill_map
   has_many :skills, :through => :skill_maps
 
-  has_many :score_account_assignments
+  has_many :score_account_assignments, inverse_of: :account
   validates_presence_of :user
 
 end

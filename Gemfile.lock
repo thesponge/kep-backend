@@ -214,3 +214,6 @@ DEPENDENCIES
   shoulda-matchers
   sqlite3
   wisper
+
+BUNDLED WITH
+   1.10.3

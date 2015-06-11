@@ -11,6 +11,7 @@ MyBackend::Application.routes.draw do
 
       resources :assignments, :only => [:show, :index,:create, :update, :destroy]
       resources :assignment_rewards
+      resources :assignment_bids
       resources :resources, :only => [:show, :index,:create, :update, :destroy]
       resources :matches
       resources :affiliations
