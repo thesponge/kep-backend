@@ -17,6 +17,7 @@ gem 'language_list'
 gem 'rack-cors'
 gem 'mina'
 gem 'wisper'
+gem 'state_machines-activerecord'
 
 group :development do
   gem 'byebug'

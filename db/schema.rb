@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 20150529145244) do
     t.datetime "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status"
+    t.string   "state"
     t.datetime "published_at"
   end
 

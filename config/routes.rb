@@ -9,7 +9,9 @@ MyBackend::Application.routes.draw do
 
       resources :accounts
 
-      resources :assignments, :only => [:show, :index,:create, :update, :destroy]
+      resources :assignments, :only => [:show, :index,:create, :update, :destroy]  do
+        patch "/state", to: "assignments#state", as: :state
+      end
       resources :assignment_rewards
       resources :assignment_bids
       resources :resources, :only => [:show, :index,:create, :update, :destroy]
@@ -23,7 +25,6 @@ MyBackend::Application.routes.draw do
         get "account_matches"
         get "assignment_matches"
       end
-
     end
   end
 
