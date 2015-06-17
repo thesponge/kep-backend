@@ -11,7 +11,7 @@ class V1::AssignmentBidsController < ApplicationController
 
   def create
     bid = current_user.assignment_bids.build(assignment_bid_params)
-    if aff.save
+    if bid.save
        render json: bid, status: 200
     else
       render json: { errors: bid.errors }, status: 422
