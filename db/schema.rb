@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150529145244) do
+ActiveRecord::Schema.define(version: 20150616013221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,21 +134,21 @@ ActiveRecord::Schema.define(version: 20150529145244) do
     t.float  "longitude"
   end
 
-  create_table "matches", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "r_id",                null: false
-    t.integer  "j_id",                null: false
-    t.integer  "resource_owner",      null: false
-    t.integer  "assignment_owner",    null: false
-    t.boolean  "accepted_assignment"
-    t.boolean  "accepted_resource"
-    t.boolean  "completed"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+  create_table "match_user_resources", force: :cascade do |t|
+    t.integer  "resource_id"
+    t.integer  "matcher_id"
+    t.integer  "nominee_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
-  add_index "matches", ["j_id", "r_id"], name: "index_matches_on_j_id_and_r_id", unique: true, using: :btree
-  add_index "matches", ["user_id"], name: "index_matches_on_user_id", using: :btree
+  create_table "match_user_users", force: :cascade do |t|
+    t.integer  "matcher_id"
+    t.integer  "nominee_id"
+    t.integer  "second_nominee_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
 
   create_table "resource_priorities", force: :cascade do |t|
     t.string "priority", null: false
@@ -163,10 +163,8 @@ ActiveRecord::Schema.define(version: 20150529145244) do
 
   create_table "resources", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "title",          null: false
-    t.text     "description",    null: false
-    t.boolean  "travel"
-    t.boolean  "driver_license"
+    t.string   "title",       null: false
+    t.text     "description", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

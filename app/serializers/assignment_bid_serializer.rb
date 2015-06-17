@@ -1,3 +1,3 @@
 class AssignmentBidSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :assignment_id, :user_id, :chosen, :created_at, :updated_at
 end

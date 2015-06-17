@@ -1,6 +1,7 @@
 class Resource < ActiveRecord::Base
   belongs_to :user, inverse_of: :resources
   has_and_belongs_to_many :resource_priorities
+  has_many :match_user_resources, inverse_of: :resource
 
   has_many :intention_maps, :as => :intention_map
   has_many :intentions, :through => :intention_maps,

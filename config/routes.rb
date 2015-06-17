@@ -15,7 +15,8 @@ MyBackend::Application.routes.draw do
       resources :assignment_rewards
       resources :assignment_bids
       resources :resources, :only => [:show, :index,:create, :update, :destroy]
-      resources :matches
+      resources :match_user_users, :only => [:show, :create]
+      resources :match_user_resources, :only => [:show, :create]
       resources :affiliations
       resources :intentions
       resources :languages
