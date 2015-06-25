@@ -3,4 +3,5 @@ class ResourceSerializer < ActiveModel::Serializer
 
   has_many :resource_priorities
   has_many :intentions
+  has_many :priorities
 end

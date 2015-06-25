@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello,<%= @owner.account.display_name %></h1>
+    <p>
+        We'd like to inform you everyone you have chosen to annouce in particular
+      about  the  <a href="<%= @url %>"> <%= @object.class.to_s.downcase %></a> was notified by email.
+      Thus,it will go public in about 3 hours.
+
+      If you will find other people you'd like to annouce, you can reprioritize either
+      now or after the <%= @object.class.to_s.downcase %> goes public, in which case it will
+      become private again.
+    </p>
+    <p>Have a productive day!</p>
+  </body>
+</html>

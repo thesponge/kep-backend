@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   has_many :assignments, inverse_of: :user
   has_many :assignment_bids, inverse_of: :user
   has_many :resources, inverse_of: :user
+  has_many :priorities, foreign_key: "chosen_id", inverse_of: :user
+
   has_many :ur_matches, class_name: "MatchUserResource", foreign_key: "matcher_id"
   has_many :ur_nominations, class_name: "MatchUserResource", foreign_key: "nominee_id"
 

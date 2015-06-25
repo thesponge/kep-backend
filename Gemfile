@@ -6,7 +6,10 @@ gem 'rails-api'
 gem 'active_model_serializers', '0.9.3'
 gem 'ffaker'
 gem 'devise', '~>3.4.1'
-#gem 'responders', '~> 2.0'
+gem 'sidekiq', '~>3.4.0'
+#For sidekiq web interface
+gem 'sinatra', require: false
+
 gem 'exception_handler'
 gem 'figaro'
 gem 'seed-fu', '~> 2.3'
@@ -23,6 +26,7 @@ group :development do
   gem 'byebug'
   gem 'sqlite3'
   gem 'pry-rails'
+  gem 'rails-erd'
 end
 
 

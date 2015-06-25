@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello,<%= @user.account.display_name %></h1>
+    <p>
+      You have received a proposal to work at the following
+    <a href="<%= @url %>"> <%= @object.class.to_s.downcase %></a>.Give it a look and see
+    if it fits you.
+    </p>
+    <p>Have a productive day!</p>
+  </body>
+</html>

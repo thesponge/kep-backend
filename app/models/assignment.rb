@@ -4,7 +4,9 @@ class Assignment < ActiveRecord::Base
   belongs_to :user, inverse_of: :assignments
 
   has_and_belongs_to_many :assignment_rewards
-  has_and_belongs_to_many :assignment_priorities
+  has_many :priorities, as: :prioritable
+  has_many :score_account_assignments, inverse_of: :assignment
+  has_many :assignment_bids, inverse_of: :assignment
 
   has_many :location_maps, :as => :location_map
   has_many :locations, :through => :location_maps,
@@ -21,11 +23,6 @@ class Assignment < ActiveRecord::Base
                     :after_remove => proc { |a| a.touch },
                     :after_add => proc { |a| a.touch unless a.new_record?  }
 
-  has_many :score_account_assignments, inverse_of: :assignment
-  has_many :assignment_bids, inverse_of: :assignment
-
-  accepts_nested_attributes_for :assignment_priorities
-
   validates :title, presence: true, length: { in: 5..150 }
   validates :description, presence: true, length: { in: 50..3000}
 
@@ -34,30 +31,29 @@ class Assignment < ActiveRecord::Base
   scope :driver_license, -> (driver_license) {where driver_license: driver_license}
 
   state_machine :state, initial: :draft do
-    # state :draft, value: "draft"
+
+    event :draft do
+      transition [:private, :published, :closed ] => :draft
+    end
+
+    event :private do
+      transition [:draft, :published] => :private
+    end
 
     event :publish do
-      transition draft: :published
+      transition [:draft, :private] => :published
     end
 
-    event :unpublish do
-      transition :published => :draft
-    end
-
-    event :progress do
-      transition :published => :in_progress
-    end
-
-    event :complete do
-      transition :in_progress => :completed
+    event :go do
+      transition :published => :ongoing
     end
 
     event :close do
-      transition :in_progress => :closed
+      transition [:published, :ongoing] => :closed
     end
 
     event :complete do
-      transition :closed => :completed
+      transition [:closed] => :completed
     end
 
     before_transition :draft => :published, do: :rec_pub_time

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616013221) do
+ActiveRecord::Schema.define(version: 20150619023109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,18 +45,6 @@ ActiveRecord::Schema.define(version: 20150616013221) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
-
-  create_table "assignment_priorities", force: :cascade do |t|
-    t.text "priority", null: false
-  end
-
-  create_table "assignment_priorities_assignments", id: false, force: :cascade do |t|
-    t.integer "assignment_id"
-    t.integer "assignment_priority_id"
-  end
-
-  add_index "assignment_priorities_assignments", ["assignment_id"], name: "index_assignment_priorities_assignments_on_assignment_id", using: :btree
-  add_index "assignment_priorities_assignments", ["assignment_priority_id"], name: "idx_assignment_priorities_assignments_on_assignment_priority_id", using: :btree
 
   create_table "assignment_rewards", force: :cascade do |t|
     t.string "reward", null: false
@@ -150,16 +138,17 @@ ActiveRecord::Schema.define(version: 20150616013221) do
     t.datetime "updated_at",        null: false
   end
 
-  create_table "resource_priorities", force: :cascade do |t|
-    t.string "priority", null: false
+  create_table "priorities", force: :cascade do |t|
+    t.integer  "chosen_id"
+    t.integer  "prioritable_id"
+    t.string   "prioritable_type"
+    t.integer  "no_hours"
+    t.integer  "level"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
-  create_table "resource_priorities_resources", id: false, force: :cascade do |t|
-    t.integer "resource_id"
-    t.integer "resource_priority_id"
-  end
-
-  add_index "resource_priorities_resources", ["resource_id"], name: "index_resource_priorities_resources_on_resource_id", using: :btree
+  add_index "priorities", ["prioritable_type", "prioritable_id"], name: "index_priorities_on_prioritable_type_and_prioritable_id", using: :btree
 
   create_table "resources", force: :cascade do |t|
     t.integer  "user_id"
