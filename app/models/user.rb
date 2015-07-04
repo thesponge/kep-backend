@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :uu_matches, class_name: "MatchUserUser", foreign_key: "matcher_id"
   has_many :uu_nominations, class_name: "MatchUserUser", foreign_key: "nominee_id"
   has_many :uu_second_nominations, class_name: "MatchUserUser", foreign_key: "second_nominee_id"
+  has_many :match_assignment_resources, foreign_key: "matcher_id", inverse_of: :user
 
   accepts_nested_attributes_for :account , allow_destroy: true
   before_create :build_account

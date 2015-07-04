@@ -3,6 +3,7 @@ class Resource < ActiveRecord::Base
   has_many :priorities, as: :prioritable,
     after_add: :start_notifying
   has_many :match_user_resources, inverse_of: :resource
+  has_many :match_assignment_resources, inverse_of: :resource
 
   has_many :intention_maps, :as => :intention_map
   has_many :intentions, :through => :intention_maps,

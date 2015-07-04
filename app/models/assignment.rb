@@ -7,7 +7,7 @@ class Assignment < ActiveRecord::Base
     after_add: :start_notifying
   has_many :score_account_assignments, inverse_of: :assignment
   has_many :assignment_bids, inverse_of: :assignment
-
+  has_many :match_assignment_resources, inverse_of: :assignment
   has_many :location_maps, :as => :location_map
   has_many :locations, :through => :location_maps,
                        :after_remove => proc { |a| a.touch },
