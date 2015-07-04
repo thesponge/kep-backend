@@ -1,10 +1,10 @@
 class Assignment < ActiveRecord::Base
   include Filterable
-
   belongs_to :user, inverse_of: :assignments
 
   has_and_belongs_to_many :assignment_rewards
-  has_many :priorities, as: :prioritable
+  has_many :priorities, as: :prioritable,
+    after_add: :start_notifying
   has_many :score_account_assignments, inverse_of: :assignment
   has_many :assignment_bids, inverse_of: :assignment
 
@@ -59,8 +59,20 @@ class Assignment < ActiveRecord::Base
     before_transition :draft => :published, do: :rec_pub_time
   end
 
+  private
+
   def rec_pub_time
     self.published_at = Time.now
   end
+
+  def start_notifying(priority)
+    logger.info "THE PARAMS IN START NOTIFING #{self.class.to_s}, #{self.id}, #{self.priority_ids}"
+    job = PrioritySuperworker.perform_async(self.class.to_s, self.id, self.priority_ids)
+  end
+
+  def auto_publish(priority)
+    levels = self.priorities.map{|p| [p.level,p.id]}.sort!
+  end
+
 
 end

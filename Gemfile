@@ -7,6 +7,7 @@ gem 'active_model_serializers', '0.9.3'
 gem 'ffaker'
 gem 'devise', '~>3.4.1'
 gem 'sidekiq', '~>3.4.0'
+gem 'sidekiq-superworker'
 #For sidekiq web interface
 gem 'sinatra', require: false
 

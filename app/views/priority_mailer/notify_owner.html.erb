@@ -4,7 +4,7 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hello,<%= @owner.account.display_name %></h1>
+    <h1>Hello, <%= @owner.account.display_name %></h1>
     <p>
         We'd like to inform you everyone you have chosen to annouce in particular
       about  the  <a href="<%= @url %>"> <%= @object.class.to_s.downcase %></a> was notified by email.

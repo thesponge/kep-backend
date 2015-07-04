@@ -139,13 +139,14 @@ ActiveRecord::Schema.define(version: 20150619023109) do
   end
 
   create_table "priorities", force: :cascade do |t|
-    t.integer  "chosen_id"
+    t.integer  "chosen_id",                        null: false
     t.integer  "prioritable_id"
     t.string   "prioritable_type"
-    t.integer  "no_hours"
-    t.integer  "level"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "no_hours",         default: 3
+    t.integer  "level",                            null: false
+    t.boolean  "notified",         default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "priorities", ["prioritable_type", "prioritable_id"], name: "index_priorities_on_prioritable_type_and_prioritable_id", using: :btree

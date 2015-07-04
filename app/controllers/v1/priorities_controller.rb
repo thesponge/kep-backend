@@ -24,22 +24,11 @@ class V1::PrioritiesController < ApplicationController
     end
   end
 
-  def batch_update
-    priorities = Priority.batch_update(request[:priority].to_json)
-    if !(priorities.to_a.empty?)
-      render json: priorities, status: 201
-      print priorities
-    else
-      render json: {errors: priorities.errors}, status: 422
-    end
-  end
-
 
   protected
 
   def priotity_params
-    params.require(:priority).permit(:user_id, :level, :no_hours, :prioritable_type,
-     :prioritable_id)
+    params.require(:priority).permit(:chosens_id, :level, :no_hours)
   end
 
 end

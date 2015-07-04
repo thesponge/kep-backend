@@ -1,6 +1,7 @@
 class Resource < ActiveRecord::Base
   belongs_to :user, inverse_of: :resources
-  has_many :priorities, as: :prioritable
+  has_many :priorities, as: :prioritable,
+    after_add: :start_notifying
   has_many :match_user_resources, inverse_of: :resource
 
   has_many :intention_maps, :as => :intention_map
@@ -11,4 +12,10 @@ class Resource < ActiveRecord::Base
 
   validates :title, presence: true, length: { in: 5..150 }
   validates :description, presence: true, length: { in: 50..3000}
+
+  private
+
+  def start_notifying(priority)
+    PrioritySuperworker.perform_async(self.class.to_s, self.id, self.priority_ids)
+  end
 end

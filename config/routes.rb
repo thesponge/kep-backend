@@ -33,7 +33,6 @@ MyBackend::Application.routes.draw do
       end
       resources :priorities do
         match :batch_create, via: [:post],  on: :collection
-        match :batch_update, via: [:patch],   on: :collection
       end
     end
   end
