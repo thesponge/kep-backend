@@ -66,13 +66,7 @@ class Assignment < ActiveRecord::Base
   end
 
   def start_notifying(priority)
-    logger.info "THE PARAMS IN START NOTIFING #{self.class.to_s}, #{self.id}, #{self.priority_ids}"
     job = PrioritySuperworker.perform_async(self.class.to_s, self.id, self.priority_ids)
   end
-
-  def auto_publish(priority)
-    levels = self.priorities.map{|p| [p.level,p.id]}.sort!
-  end
-
 
 end
