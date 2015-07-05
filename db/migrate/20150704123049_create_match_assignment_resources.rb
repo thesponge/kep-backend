@@ -1,4 +1,4 @@
-class CreateMatchAssignmentResource < ActiveRecord::Migration
+class CreateMatchAssignmentResources < ActiveRecord::Migration
   def change
     create_table :match_assignment_resources do |t|
       t.belongs_to :assignment, null: false

@@ -1,5 +1,5 @@
 class V1::MatchUserUsersController < ApplicationController
-  before_action :authenticate_with_token!, only: [ :create, :destroy ]
+  before_action :authenticate_with_token!, only: [ :create]
   rescue_from ActiveRecord::RecordNotUnique, with: :not_uniq
 
 
@@ -10,7 +10,7 @@ class V1::MatchUserUsersController < ApplicationController
   def create
     match = current_user.uu_matches.build(match_user_user_params)
     if match.save
-      render json: match, status: 422
+      render json: match, status: 201
     else
       render json: match.errors, status: 422
     end
