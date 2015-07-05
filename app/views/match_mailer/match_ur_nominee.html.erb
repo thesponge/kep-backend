@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi <%= @nominee.email %></h1>
+    <p>
+      <a href=<%= @url_matcher %>><%= @matcher.account.display_name %></a> tought
+      you may may be interested in the following <a href=<%= @url_resource %>>
+      resource</a>.
+      We suggest you take a look at it, and confirm the match if you will arrive
+      at the conclusion that it is useful for you.
+    </p>
+
+    <p>
+      Have a friendly day!
+    </p>
+  </body>
+</html>
