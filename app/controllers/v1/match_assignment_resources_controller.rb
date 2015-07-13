@@ -1,4 +1,4 @@
-class MatchAssignmentResourcesController < ApplicationController
+class V1::MatchAssignmentResourcesController < ApplicationController
 
  # TEST THIS GUY WHEN YOU GET TO INTERNET!!!!!!
 
@@ -7,11 +7,15 @@ class MatchAssignmentResourcesController < ApplicationController
   end
 
   def create
-    match_as_re = MatchAssignmentResource.build(match_assignment_resource_params)
-    if match_as_re.save!
-      render json: match_as_re, status: 201
+    match = current_user.match_assignment_resources.build(match_assignment_resource_params)
+    if match.save!
+      ManualMatchMailer.match_ar_assign(Assignment.find(match.assignment_id),
+       Resource.find(match.resource_id), User.find(match.matcher_id)).deliver_now
+      ManualMatchMailer.match_ar_resource(Assignment.find(match.assignment_id),
+       Resource.find(match.resource_id), User.find(match.matcher_id)).deliver_now
+      render json: match, status: 201
     else
-      render json: match_as_re.errors
+      render json: match.errors, status: 422
     end
   end
 

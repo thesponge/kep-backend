@@ -1,7 +1,3 @@
 class MatchAssignmentResourceSerializer < ActiveModel::Serializer
-  attributes :id, :iso, :common
-
-  belongs_to :assignment
-  belongs_to :resource
-  belongs_to :user
+  attributes :assignment_id, :resource_id, :matcher_id
 end

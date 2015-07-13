@@ -10,7 +10,11 @@ class V1::MatchUserUsersController < ApplicationController
   def create
     match = current_user.uu_matches.build(match_user_user_params)
     if match.save
-      render json: match, status: 422
+      ManualMatchMailer.match_uu(User.find(match.nominee_id), User.find(match.second_nominee_id),
+        User.find(match.matcher_id)).deliver_now
+      ManualMatchMailer.match_uu(User.find(match.second_nominee_id), User.find(match.nominee_id),
+          User.find(match.matcher_id)).deliver_now
+      render json: match, status: 201
     else
       render json: match.errors, status: 422
     end

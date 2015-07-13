@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi <%= @resource.user.email %></h1>
+    <p>
+      <a href="<%= @url_matcher %>"><%= @matcher.account.display_name %></a> tought
+      your <a href="<%= @url_resource %>">resource</a> could be useful for this
+      <a href="<%= @url_assign %>">assignment</a> .
+      Please take a look and confirm the match if you agree.
+    </p>
+
+    <p>
+      Have a great day!
+    </p>
+  </body>
+</html>

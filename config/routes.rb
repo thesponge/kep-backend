@@ -22,7 +22,7 @@ MyBackend::Application.routes.draw do
       resources :resources, :only => [:show, :index,:create, :update, :destroy]
       resources :match_user_users, :only => [:show, :create]
       resources :match_user_resources, :only => [:show, :create]
-      resources :match_assignment_resource, :only => [:show, :create]
+      resources :match_assignment_resources, :only => [:show, :create]
       resources :affiliations
       resources :intentions
       resources :languages
