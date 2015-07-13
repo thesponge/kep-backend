@@ -1,7 +1,6 @@
 class V1::MatchAssignmentResourcesController < ApplicationController
   before_action :authenticate_with_token!, only: [ :create ]
   rescue_from ActiveRecord::RecordNotUnique, with: :not_uniq
- # TEST THIS GUY WHEN YOU GET TO INTERNET!!!!!!
 
   def show
     render json: MatchAssignmentResource.find(params[:id])
@@ -9,10 +8,14 @@ class V1::MatchAssignmentResourcesController < ApplicationController
 
   def create
     match = current_user.match_assignment_resources.build(match_assignment_resource_params)
-    if match.save
+    if match.save!
+      ManualMatchMailer.match_ar_assign(Assignment.find(match.assignment_id),
+       Resource.find(match.resource_id), User.find(match.matcher_id)).deliver_now
+      ManualMatchMailer.match_ar_resource(Assignment.find(match.assignment_id),
+       Resource.find(match.resource_id), User.find(match.matcher_id)).deliver_now
       render json: match, status: 201
     else
-      render json: match.errors
+      render json: match.errors, status: 422
     end
   end
 

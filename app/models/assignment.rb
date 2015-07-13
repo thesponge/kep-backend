@@ -25,6 +25,7 @@ class Assignment < ActiveRecord::Base
 
   validates :title, presence: true, length: { in: 5..150 }
   validates :description, presence: true, length: { in: 50..3000}
+  validates :progress_percent, :inclusion => {:in => [0,100]}
 
   scope :title, -> (title) {where title: title}
   scope :travel, -> (travel) {where travel: travel}

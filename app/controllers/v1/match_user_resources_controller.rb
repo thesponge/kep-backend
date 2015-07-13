@@ -10,6 +10,10 @@ class V1::MatchUserResourcesController < ApplicationController
   def create
     match = current_user.ur_matches.build(match_user_resource_params)
     if match.save
+      ManualMatchMailer.match_ur_nominee(User.find(match.nominee_id),
+       Resource.find(match.resource_id),User.find(match.matcher_id)).deliver_now
+      ManualMatchMailer.match_ur_resource(User.find(match.nominee_id),
+      Resource.find(match.resource_id), User.find(match.matcher_id)).deliver_now
       render json: match, status: 201
     else
       render json: match.errors, status: 422

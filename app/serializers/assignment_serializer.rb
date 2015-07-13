@@ -1,6 +1,7 @@
 class AssignmentSerializer < ActiveModel::Serializer
   attributes :id, :user_id, :title, :description, :travel, :driver_license, :state,
-             :created_at, :updated_at
+             :start_date, :end_date, :progress_percent, :created_at, :updated_at,
+             :published_at
 
   has_many :locations
   has_many :languages
