@@ -19,4 +19,5 @@ class V1::ScoreAccountAssignmentsController < ApplicationController
     params.require(:score_account_assignment).permit(:id,:account_id,:assignment_id)
   end
 
+
 end
