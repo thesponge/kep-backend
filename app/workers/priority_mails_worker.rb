@@ -1,6 +1,6 @@
 class PriorityMailsWorker
   include Sidekiq::Worker
-  sidekiq_options :retry => 10 # Only five retries and then to the Dead Job Queue
+  sidekiq_options :retry => 10 # Only 10 retries and then to the Dead Job Queue
 
   sidekiq_retries_exhausted do |msg|
    Sidekiq.logger.warn "Failed #{msg['class']} with #{msg['args']}: #{msg['error_message']}"

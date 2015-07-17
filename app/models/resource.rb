@@ -14,9 +14,36 @@ class Resource < ActiveRecord::Base
   validates :title, presence: true, length: { in: 5..150 }
   validates :description, presence: true, length: { in: 50..3000}
 
+  state_machine :state, initial: :draft do
+
+    event :draft do
+      transition [:private, :published, :closed ] => :draft
+    end
+
+    event :private do
+      transition [:draft, :published] => :private
+    end
+
+    event :publish do
+      transition [:draft, :private] => :published
+    end
+
+    event :close do
+      transition [:published] => :closed
+    end
+
+    before_transition :draft => :published, do: :rec_pub_time
+  end
+
+
   private
+
+  def rec_pub_time
+    self.published_at = Time.now
+  end
 
   def start_notifying(priority)
     PrioritySuperworker.perform_async(self.class.to_s, self.id, self.priority_ids)
   end
+
 end

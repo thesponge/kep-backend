@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150713072405) do
+ActiveRecord::Schema.define(version: 20150716182502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,6 +147,15 @@ ActiveRecord::Schema.define(version: 20150713072405) do
     t.datetime "updated_at",        null: false
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "user_id",                                    null: false
+    t.string   "type"
+    t.boolean  "seen",       default: false
+    t.string   "content",                                    null: false
+    t.datetime "start_time", default: '2015-07-14 21:57:49', null: false
+    t.datetime "end_time"
+  end
+
   create_table "priorities", force: :cascade do |t|
     t.integer  "chosen_id",                        null: false
     t.integer  "prioritable_id"
@@ -162,10 +171,12 @@ ActiveRecord::Schema.define(version: 20150713072405) do
 
   create_table "resources", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "title",       null: false
-    t.text     "description", null: false
+    t.string   "title",        null: false
+    t.text     "description",  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "state"
+    t.datetime "published_at"
   end
 
   add_index "resources", ["user_id"], name: "index_resources_on_user_id", using: :btree

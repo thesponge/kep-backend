@@ -1,10 +1,5 @@
 class V1::ScoreAccountAssignmentsController < ApplicationController
 
-
-  def show
-    render json: ScoreAccountAssignment.find(params[:id])
-  end
-
   def account_matches
     render json: ScoreAccountAssignment.where(account_id: params[:account_id])
   end

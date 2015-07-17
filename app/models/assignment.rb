@@ -61,7 +61,7 @@ class Assignment < ActiveRecord::Base
   end
 
   private
-
+  
   def rec_pub_time
     self.published_at = Time.now
   end
