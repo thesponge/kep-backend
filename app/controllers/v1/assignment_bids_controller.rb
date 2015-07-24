@@ -1,9 +1,5 @@
 class V1::AssignmentBidsController < ApplicationController
-   before_action :authenticate_with_token!, only: [:create, :update, :destroy]
-
-  def index
-    render json: AssignmentBid.all
-  end
+   before_action :authenticate_with_token!, only: [:create]
 
   def show
     render json: AssignmentBid.find(params[:id])

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150716182502) do
+ActiveRecord::Schema.define(version: 20150723234841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,25 @@ ActiveRecord::Schema.define(version: 20150716182502) do
 
   add_index "accounts_affiliations", ["account_id"], name: "index_accounts_affiliations_on_account_id", using: :btree
   add_index "accounts_affiliations", ["affiliation_id"], name: "index_accounts_affiliations_on_affiliation_id", using: :btree
+
+  create_table "activities", force: :cascade do |t|
+    t.integer  "trackable_id"
+    t.string   "trackable_type"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "key"
+    t.text     "parameters"
+    t.integer  "recipient_id"
+    t.string   "recipient_type"
+    t.datetime "start_time",     default: '2015-07-18 11:44:58', null: false
+    t.datetime "end_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
+  add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
+  add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
   create_table "affiliations", force: :cascade do |t|
     t.string "affiliation", null: false
@@ -63,8 +82,6 @@ ActiveRecord::Schema.define(version: 20150716182502) do
     t.integer  "user_id"
     t.string   "title",                        null: false
     t.text     "description",                  null: false
-    t.boolean  "travel"
-    t.boolean  "driver_license"
     t.datetime "start_date"
     t.datetime "end_date"
     t.datetime "created_at"
@@ -147,15 +164,6 @@ ActiveRecord::Schema.define(version: 20150716182502) do
     t.datetime "updated_at",        null: false
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.integer  "user_id",                                    null: false
-    t.string   "type"
-    t.boolean  "seen",       default: false
-    t.string   "content",                                    null: false
-    t.datetime "start_time", default: '2015-07-14 21:57:49', null: false
-    t.datetime "end_time"
-  end
-
   create_table "priorities", force: :cascade do |t|
     t.integer  "chosen_id",                        null: false
     t.integer  "prioritable_id"
@@ -165,6 +173,7 @@ ActiveRecord::Schema.define(version: 20150716182502) do
     t.boolean  "notified",         default: false
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.string   "batch_number",                     null: false
   end
 
   add_index "priorities", ["prioritable_type", "prioritable_id"], name: "index_priorities_on_prioritable_type_and_prioritable_id", using: :btree

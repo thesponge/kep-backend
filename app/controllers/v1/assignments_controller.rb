@@ -56,9 +56,9 @@ class V1::AssignmentsController < ApplicationController
   private
 
   def assignment_params
-    params.require(:assignment).permit(:event,:title, :description, :travel, :driver_license,
-     :start_date, :end_date, :progress_percent ,assignment_reward_ids: [], priority_ids: [], skill_ids: [], 
-     location_ids: [], language_ids: [], assignment_bid_ids: [])
+    params.require(:assignment).permit(:event,:title, :description, :start_date,
+     :end_date, :progress_percent ,assignment_reward_ids: [], priority_ids: [],
+     skill_ids: [],  location_ids: [], language_ids: [], assignment_bid_ids: [])
   end
 
 

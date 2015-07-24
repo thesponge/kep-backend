@@ -1,7 +1,15 @@
 class Resource < ActiveRecord::Base
+  include PublicActivity::Model
+
+  tracked owner: :user,
+          recipient: :user,
+          only: [:published, :annouce_each_level, :all_prioritites_notified],
+          params: {
+            resource_title:-> (controller, model_instance) {model_instance.title}
+          }
+
   belongs_to :user, inverse_of: :resources
-  has_many :priorities, as: :prioritable,
-    after_add: :start_notifying
+  has_many :priorities, as: :prioritable
   has_many :match_user_resources, inverse_of: :resource
   has_many :match_assignment_resources, inverse_of: :resource
 
@@ -21,7 +29,7 @@ class Resource < ActiveRecord::Base
     end
 
     event :private do
-      transition [:draft, :published] => :private
+      transition [:draft, :published, :private] => :private
     end
 
     event :publish do
@@ -33,17 +41,25 @@ class Resource < ActiveRecord::Base
     end
 
     before_transition :draft => :published, do: :rec_pub_time
+    after_transition [:draft, :private] => :published, do: :notify_going_public
   end
 
+  def annouce_each_level(priorities)
+    priorities.map{|p| [p.level, p.no_hours]}.uniq.each do |level, no_hours|
+      level_start = level * no_hours
+      self.create_activity action: 'next_priorities_level', recipient: self.user,
+        owner: self.user, start_time: priorities.last.created_at + level_start.hours
+    end
+  end
 
   private
 
-  def rec_pub_time
-    self.published_at = Time.now
+  def notify_going_public
+    self.create_activity action: 'published'
   end
 
-  def start_notifying(priority)
-    PrioritySuperworker.perform_async(self.class.to_s, self.id, self.priority_ids)
+  def rec_pub_time
+    self.published_at = Time.now
   end
 
 end
