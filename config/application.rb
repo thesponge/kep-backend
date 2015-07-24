@@ -31,6 +31,7 @@ module MyBackend
 
   config.active_job.queue_adapter = :sidekiq
   config.active_record.raise_in_transactional_callbacks = true
+  config.action_mailer.raise_delivery_errors = true
 
   # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

@@ -18,7 +18,7 @@ MyBackend::Application.routes.draw do
         patch "/state", to: "assignments#state", as: :state
       end
       resources :assignment_rewards
-      resources :assignment_bids
+      resources :assignment_bids, :only => [:show, :batch_create]
       resources :resources, :only => [:show, :index,:create, :update, :destroy]
       resources :match_user_users, :only => [:show, :create]
       resources :match_user_resources, :only => [:show, :create]

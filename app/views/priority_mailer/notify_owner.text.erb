@@ -3,9 +3,9 @@ Hello, <%= @owner.account.display_name %>
 
 We'd like to inform you everyone you have chosen to annouce in particular
 about  the   <%= @object.class.to_s.downcase %>: <%= @url %>"> was notified by email.
-Thus,it will go public in about 3 hours.
+Thus,it will go public in about <%= @last_lvl_time %> hour(s).
 
-If you will find other people you'd like to annouce, you can reprioritize either
+If there are other people you'd like to annouce, you can reprioritize either
 now or after the <%= @object.class.to_s.downcase %> goes public, in which case it will
 become private again.
 

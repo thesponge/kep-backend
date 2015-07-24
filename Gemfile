@@ -15,6 +15,7 @@ gem 'exception_handler'
 gem 'figaro'
 gem 'seed-fu', '~> 2.3'
 gem 'geocoder'
+gem 'public_activity'
 #For the list of languages in language model
 gem 'language_list'
 #For cors operations

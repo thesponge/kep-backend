@@ -3,7 +3,7 @@ class CreateAssignmentBids < ActiveRecord::Migration
     create_table :assignment_bids do |t|
       t.belongs_to :assignment
       t.belongs_to :user
-      t.boolean :chosen
+      t.boolean :chosen, default: false
 
       t.timestamps null: false
     end

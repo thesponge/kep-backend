@@ -15,6 +15,11 @@ class Account < ActiveRecord::Base
   has_many :skills, :through => :skill_maps
 
   has_many :score_account_assignments, inverse_of: :account
+  
   validates_presence_of :user
+
+  def display_name
+    read_attribute(:display_name) || self.user.read_attribute(:email)[/[^@]+/]
+  end
 
 end
