@@ -14,12 +14,14 @@ MyBackend::Application.routes.draw do
 
       resources :accounts, :only => [:show,:update]
 
-      resources :assignments, :only => [:show, :index,:create, :update, :destroy]  do
+      resources :assignments, :only => [:show, :index, :create, :update, :destroy]  do
         patch "/state", to: "assignments#state", as: :state
       end
       resources :assignment_rewards
-      resources :assignment_bids, :only => [:show, :batch_create]
-      resources :resources, :only => [:show, :index,:create, :update, :destroy]
+      resources :assignment_bids, :only => [:show, :create]
+      resources :resources, :only => [:show, :index, :create, :update, :destroy] do
+        patch "/state", to: "resources#state", as: :state
+      end
       resources :match_user_users, :only => [:show, :create]
       resources :match_user_resources, :only => [:show, :create]
       resources :match_assignment_resources, :only => [:show, :create]
@@ -35,6 +37,8 @@ MyBackend::Application.routes.draw do
       resources :priorities do
         match :batch_create, via: [:post],  on: :collection
       end
+
+      post 'share', to: 'share#create'
     end
   end
 
