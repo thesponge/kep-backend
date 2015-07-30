@@ -21,5 +21,6 @@ Skill.seed(:id,
   { :id => 20, :category => "bureaucracy", :name => "reporting", :icon => "briefcase" },
   { :id => 21, :category => "bureaucracy", :name => "project proposal", :icon => "briefcase" },
   { :id => 22, :category => "tech", :name => "system administration", :icon => "laptop" },
-  { :id => 23, :category => "tech", :name => "databases", :icon => "laptop" }
+  { :id => 23, :category => "tech", :name => "databases", :icon => "laptop" },
+  { :id => 23, :category => "other", :name => "driving license", :icon => "asterisk" }
 )

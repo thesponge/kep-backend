@@ -23,6 +23,7 @@ gem 'rack-cors'
 gem 'mina'
 gem 'wisper'
 gem 'state_machines-activerecord'
+gem 'addressable'
 
 group :development do
   gem 'byebug'
