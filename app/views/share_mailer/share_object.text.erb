@@ -1,0 +1,25 @@
+Hello, <%= @email %>
+===============================================
+
+<%= @user.account.display_name %> shared a(n) <%= @object_class %>from Knowledge
+Exchange Platform with you.
+Here are the <%= @object_class %>  details:
+
+Title:
+<%= @object.title %>
+
+Description:
+<%= @object.description %>
+
+<%=
+  if @object_class == "resource"
+    p "The owner's intentions regarding the use of this resource:"
+    @object.intentions.each {|i| p i.intention }
+  end
+%>
+
+If you are interested in this <%= @object_class %> , or just curious about KEP
+<a href="<%= @url %>">visit our page</a>. After you create an account you can have
+access to this and many other resources.
+
+Have a lovely day!

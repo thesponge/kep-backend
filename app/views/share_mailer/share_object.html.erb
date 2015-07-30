@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello, <%= @email %></h1>
+    <p>
+      <%= @user.account.display_name %> shared a(n) <%= @object_class %>from Knowledge
+      Exchange Platform with you.
+      Here are the <%= @object_class %>  details:
+    </p>
+
+    <br>
+    <p>Title:</p>
+    <p><%= @object.title %></p>
+
+    <br>
+    <p>Description:</p>
+    <p><%= @object.description %></p>
+
+    <br>
+    <%=
+      if @object_class == "resource"
+        p "The owner's intentions regarding the use of this resource:"
+        @object.intentions.each {|i| p i.intention }
+      end
+    %>
+
+    <br>
+    <p>If you are interested in this <%= @object_class %> , or just curious about KEP
+    <a href="<%= @url %>">visit our page</a>. After you create an account you can have
+    access to this and many other resources.</p>
+
+    <br>
+    <p>Have a lovely day!</p>
+  </body>
+</html>

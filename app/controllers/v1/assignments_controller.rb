@@ -44,7 +44,7 @@ class V1::AssignmentsController < ApplicationController
   end
 
   def state
-    assignment= Assignment.find(params[:assignment_id])
+    assignment= current_user.assignments.find(params[:assignment_id])
     assignment.state_event = "#{params[:event]}"
     if assignment.save
       render json: assignment, status: 200
@@ -56,10 +56,9 @@ class V1::AssignmentsController < ApplicationController
   private
 
   def assignment_params
-    params.require(:assignment).permit(:event,:title, :description, :start_date,
+    params.require(:assignment).permit(:event, :title, :description, :start_date,
      :end_date, :progress_percent ,assignment_reward_ids: [], priority_ids: [],
      skill_ids: [],  location_ids: [], language_ids: [], assignment_bid_ids: [])
   end
-
 
 end

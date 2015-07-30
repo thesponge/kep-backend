@@ -8,7 +8,7 @@ class V1::MatchAssignmentResourcesController < ApplicationController
 
   def create
     match = current_user.match_assignment_resources.build(match_assignment_resource_params)
-    if match.save!
+    if match.save
       ManualMatchMailer.match_ar_assign(Assignment.find(match.assignment_id),
        Resource.find(match.resource_id), User.find(match.matcher_id)).deliver_now
       ManualMatchMailer.match_ar_resource(Assignment.find(match.assignment_id),
