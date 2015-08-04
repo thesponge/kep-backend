@@ -19,6 +19,11 @@ rake db:migrate
 rake db:seed_fu # this will populate the db with the fixed values (i.e. dropdown menu options)
 rails server
 ```
+##To start background jobs processing 
+```redis -server 
+ bundle exec sidekiq 
+```
+
 
 
 ##Description:
@@ -27,6 +32,7 @@ rails server
   * Active Model Serializer to provide json  
   * PostgreSQL database
   * Stable deployment with Mina
+  * Background jobs processing with Sidekiq and Redis
 
 ####Database
   In the effort of making the database as flexible and efficient as possible we used several complex designs:
@@ -34,10 +40,13 @@ rails server
   * Polymorphic has-and-belongs-to-many for cases where 2 records are each related to a third one with which they each have the relation explained above ^
   * Polymorphic has-many-though for cases related to the one above but where the join table contains extra data and has to be directly accessed.
 
-##What's planned
+##What's there
   * Automatic match making functionality
-  * Ranking/comment system
   * User notifications
-  * Consume ownCloud's API in order to populate the interface with some of its features (Ember -> Rails -> ownCloud -> Rails -> Ember), such as: files, calendars, contacts ( *DAV)
-  * OAuth integration for more providers
+  * Workflow for both assignments and resources, with the ability to choose priorities on different levels
+ 
+###What's to come
+  * Deployment with docker
   * Search and filtering functionality  
+  * OAuth integration for more providers
+  
