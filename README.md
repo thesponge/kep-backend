@@ -20,7 +20,8 @@ rake db:seed_fu # this will populate the db with the fixed values (i.e. dropdown
 rails server
 ```
 ##To start background jobs processing 
-```redis -server 
+```bash
+ redis -server 
  bundle exec sidekiq 
 ```
 
