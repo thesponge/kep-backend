@@ -3,7 +3,6 @@ class SendConfirmationWorker
   include Sidekiq::Extensions::ActiveRecord
 
   def perform(object_class, object_id, priority_id)
-    args = method(__method__).parameters.map { |arg| arg[1] }
     object = Object.const_get(object_class).find(object_id)
     user = User.find(object.user_id)
     batch_total_time = batch_total_time(priority_id, object)
@@ -19,8 +18,6 @@ class SendConfirmationWorker
       owner: object.user, start_time: Time.current + email_delay_time
     #How long the publishing should be delayed
     publish_delay_time =  (batch_total_time * 3600) - waste_time
-    Sidekiq.logger.warn "METHOD FAILED WITH " + args.map { |arg| "#{arg} = #{eval arg.to_s}" }.join(', ')
-    Sidekiq.logger.warn 'DELAY PUBLISH is' + publish_delay_time.to_s
     object.delay_for(publish_delay_time.seconds).publish!
   end
 

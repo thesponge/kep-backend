@@ -1,7 +1,5 @@
 class V1::ResourcesController < ApplicationController
   before_action :authenticate_with_token!, only: [ :create, :update, :destroy]
-  before_filter :add_cors_to_json
-
 
   def index
     render json: Resource.all
@@ -32,26 +30,28 @@ class V1::ResourcesController < ApplicationController
   def destroy
     resource = current_user.resources.find(params[:id])
     if resource.destroy
-      head 204
+      render json: {}, status: 204
     else
       render json: {errors: resource.errors.full_messages}, status: 422
     end
   end
 
-  private
-
-  def resource_params
-    params.require(:resource).permit(:title, :description,resource_intention_ids: [],
-     priority_ids: [])
-  end
-
-  protected def add_cors_to_json
-    if request.format == "application/json"
-      # "*" to allow for any domain, or specify certain domains
-      response.headers["Access-Control-Allow-Origin"] = "*"
+  def state
+    resource = current_user.resources.find(params[:resource_id])
+    resource.state_event = "#{params[:event]}"
+    if resource.save
+      render json: resource, status: 200
+    else
+      render json: resource.errors.full_messages, status: 422
     end
   end
 
 
+  private
+
+  def resource_params
+    params.require(:resource).permit(:event, :title, :description,  intention_ids: [],
+     priority_ids: [])
+  end
 
 end

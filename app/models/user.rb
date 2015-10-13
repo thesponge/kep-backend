@@ -1,4 +1,9 @@
 class User < ActiveRecord::Base
+
+  update_index('kep#account') { account }
+  update_index('kep#assignment') { assignments }
+  update_index('kep#resource') {resources}
+
   has_one  :account, dependent: :destroy
   has_many :assignments, inverse_of: :user
   has_many :assignment_bids, inverse_of: :user

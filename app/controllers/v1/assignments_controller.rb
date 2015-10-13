@@ -4,8 +4,7 @@ class V1::AssignmentsController < ApplicationController
   before_action :authenticate_with_token!, only: [ :create, :update, :destroy]
 
   def index
-    assignments = Assignment.filter(params.slice(:title, :travel, :driver_license))
-    render json: assignments
+    render json: Assignment.all
   end
 
   def show
@@ -37,14 +36,14 @@ class V1::AssignmentsController < ApplicationController
   def destroy
     assignment = current_user.assignments.find(params[:id])
     if assignment.destroy
-      head 204
+      render json: {}, status: 204
     else
       render json: {errors: assignment.errors.full_messages}, status: 422
     end
   end
 
   def state
-    assignment= Assignment.find(params[:assignment_id])
+    assignment= current_user.assignments.find(params[:assignment_id])
     assignment.state_event = "#{params[:event]}"
     if assignment.save
       render json: assignment, status: 200
@@ -56,10 +55,9 @@ class V1::AssignmentsController < ApplicationController
   private
 
   def assignment_params
-    params.require(:assignment).permit(:event,:title, :description, :start_date,
+    params.require(:assignment).permit(:event, :title, :description, :start_date,
      :end_date, :progress_percent ,assignment_reward_ids: [], priority_ids: [],
      skill_ids: [],  location_ids: [], language_ids: [], assignment_bid_ids: [])
   end
-
 
 end
