@@ -39,6 +39,10 @@ MyBackend::Application.routes.draw do
       end
 
       post 'share', to: 'share#create'
+
+      post 'search/resource_search', to: 'search#resource_search'
+      post 'search/account_search', to: 'search#account_search'
+      post 'search/assignment_search', to: 'search#assignment_search'
     end
   end
 

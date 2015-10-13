@@ -16,7 +16,6 @@ class AutomaticMatches
   def update(a, a_params)
     if a_params.include?("skill_ids") || a_params.include?("language_ids") || a_params.include?("location_ids")
       ScoreAccountAssignment.where("#{a.class.to_s.downcase}_id": a.id).destroy_all
-      p "HELLO AFTER DELITION"
       generate(a,a_params)
     end
   end
