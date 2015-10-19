@@ -1,8 +1,9 @@
 class Assignment < ActiveRecord::Base
-  include Filterable
   include PublicActivity::Model
 
-  after_save :notify_progress, if: Proc.new{self.progress_percent_changed?}
+  update_index('kep#assignment') { self }
+
+  after_commit :notify_progress, if: Proc.new{self.progress_percent_changed?}
 
   tracked owner: :user,
           recipient: :user,
@@ -37,8 +38,6 @@ class Assignment < ActiveRecord::Base
   validates :title, presence: true, length: { in: 5..150 }
   validates :description, presence: true, length: { in: 50..3000}
   validates_inclusion_of :progress_percent, :in => 0..100
-
-  scope :title, -> (title) {where title: title}
 
   state_machine :state, initial: :draft do
 
@@ -83,7 +82,7 @@ class Assignment < ActiveRecord::Base
   private
 
   def rec_pub_time
-    self.published_at = Time.now
+    self.published_at = Time.current
   end
 
   def notify_going_public

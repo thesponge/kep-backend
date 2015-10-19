@@ -1,4 +1,14 @@
 class ScoreAccountAssignment < ActiveRecord::Base
+  include PublicActivity::Model
+
+  tracked owner:-> (controller, model_instance) {model_instance.assignment.user},
+          recipient:-> (controller, model_instance) {model_instance.account.user},
+          only: [:create],
+          params: {
+            assign_title:-> (controller, model_instance) {model_instance.assignment.title},
+            score: -> (controller, model_instance) {model_instance.total_score}
+          }
+
   belongs_to :account, inverse_of: :score_account_assignments
   belongs_to :assignment, inverse_of: :score_account_assignments
 

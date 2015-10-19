@@ -1,7 +1,11 @@
 class AssignmentBid < ActiveRecord::Base
   include PublicActivity::Model
 
-  after_save :notify_chosen, if: Proc.new{self.chosen_changed? && self.chosen?}
+  update_index 'kep#assignment' do
+    previous_changes['assignment_id'] || assignment
+  end
+
+  after_commit :notify_chosen, if: Proc.new{self.chosen_changed? && self.chosen?}
 
   tracked owner: ->(controller, model) {controller && controller.current_user},
           recipient: ->(controller,model) {model.assignment.user},

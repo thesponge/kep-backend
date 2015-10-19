@@ -30,7 +30,7 @@ class V1::ResourcesController < ApplicationController
   def destroy
     resource = current_user.resources.find(params[:id])
     if resource.destroy
-      head 204
+      render json: {}, status: 204
     else
       render json: {errors: resource.errors.full_messages}, status: 422
     end

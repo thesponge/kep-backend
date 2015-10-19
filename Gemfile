@@ -24,12 +24,15 @@ gem 'mina'
 gem 'wisper'
 gem 'state_machines-activerecord'
 gem 'addressable'
+#For integration with elasticsearch
+gem 'chewy'
 
 group :development do
   gem 'byebug'
   gem 'sqlite3'
   gem 'pry-rails'
   gem 'rails-erd'
+  gem 'railroady'
 end
 
 

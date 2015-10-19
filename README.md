@@ -19,6 +19,12 @@ rake db:migrate
 rake db:seed_fu # this will populate the db with the fixed values (i.e. dropdown menu options)
 rails server
 ```
+##To start background jobs processing
+```bash
+ redis -server
+ bundle exec sidekiq
+```
+
 
 
 ##Description:
@@ -30,11 +36,13 @@ rails server
   * Backgrounds jobs with Sidekiq and Redis
   * Indexing and searching/filtering with ElasticSearch
 
+
 ####Database
   In the effort of making the database as flexible and efficient as possible we used several complex designs:
   * Has-and-belongs-to-many for records that should be changed through their corresponding instances as well as through instances of the related record
   * Polymorphic has-and-belongs-to-many for cases where 2 records are each related to a third one with which they each have the relation explained above ^
   * Polymorphic has-many-though for cases related to the one above but where the join table contains extra data and has to be directly accessed.
+
 
 ###Special features
   * Notifications
@@ -57,4 +65,6 @@ rails server
      This feature lets a third user make a match between two parties(as stated above) if they happen to notice a compatibility between them. Based on the feedback of the matched parties, the user will have a raised "match-maker" reputation.
 
 ###Planed features
-  * Settings panel for users. 
+  * Settings panel for users
+  * Deployment with docker
+  * OAuth integration for more providers

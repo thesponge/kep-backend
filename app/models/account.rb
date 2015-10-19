@@ -1,6 +1,8 @@
 class Account < ActiveRecord::Base
   include PublicActivity::Model
 
+  update_index('kep#account') { self }
+
   tracked only: [:notify_coleagues]
 
   belongs_to :user

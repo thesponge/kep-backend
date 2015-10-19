@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150723234841) do
+ActiveRecord::Schema.define(version: 20150804040153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,11 +133,12 @@ ActiveRecord::Schema.define(version: 20150723234841) do
   add_index "location_maps", ["location_id"], name: "index_location_maps_on_location_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.string "country",   null: false
+    t.string "country",                             null: false
     t.string "state"
     t.string "city"
     t.float  "latitude"
     t.float  "longitude"
+    t.string "location_type", default: "residence", null: false
   end
 
   create_table "match_assignment_resources", force: :cascade do |t|

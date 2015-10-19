@@ -4,8 +4,7 @@ class V1::AssignmentsController < ApplicationController
   before_action :authenticate_with_token!, only: [ :create, :update, :destroy]
 
   def index
-    assignments = Assignment.filter(params.slice(:title, :travel, :driver_license))
-    render json: assignments
+    render json: Assignment.all
   end
 
   def show
@@ -37,7 +36,7 @@ class V1::AssignmentsController < ApplicationController
   def destroy
     assignment = current_user.assignments.find(params[:id])
     if assignment.destroy
-      head 204
+      render json: {}, status: 204
     else
       render json: {errors: assignment.errors.full_messages}, status: 422
     end

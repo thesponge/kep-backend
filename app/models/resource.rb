@@ -59,7 +59,7 @@ class Resource < ActiveRecord::Base
   end
 
   def rec_pub_time
-    self.published_at = Time.now
+    self.published_at = Time.current
   end
 
 end
