@@ -25,7 +25,7 @@ gem 'wisper'
 gem 'state_machines-activerecord'
 gem 'addressable'
 #For integration with elasticsearch
-gem 'chewy'
+gem 'chewy', '0.8.1'
 
 group :development do
   gem 'byebug'

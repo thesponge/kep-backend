@@ -255,7 +255,7 @@ DEPENDENCIES
   bundler
   byebug
   capybara
-  chewy
+  chewy (= 0.8.1)
   devise (~> 3.4.1)
   exception_handler
   factory_girl_rails
