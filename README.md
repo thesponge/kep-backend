@@ -5,11 +5,13 @@ KEP backend
 
 ##Build
 ```bash
-git clone https://github.com/thesponge/kep.git
+git clone https://github.com/thesponge/kep-backend.git
 
 # OR
 
-git clone git@git.thesponge.eu:thesponge/kep-ember.git # (this is a mirror)
+git clone https://github.com/thesponge/kep.git
+git submodule init
+git submodule update
 ```
 
 ```bash
